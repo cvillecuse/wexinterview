@@ -29,7 +29,7 @@ public class TreasuryExchangeClientImpl implements TreasuryExchangeClient {
 			val response = restTemplate.getForEntity(url, ExchangeRateResponse.class);
 			return response.getBody().getData();
 		} catch (Exception e) {
-			// consider handling in such a way that the service still returns the purchase indo, but with status 206 code partial content
+			// consider handling in such a way that the service still returns the purchase info, but with status 206 code partial content
 			log.error("Error retrieving exchange rate for " + countryCurrencyDesc, e);
 			throw e;
 		}
