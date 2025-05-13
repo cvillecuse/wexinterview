@@ -22,6 +22,9 @@ public class ExchangeRateProcessorImpl implements ExchangeRateProcessor {
 	@Override
 	public double getExchangeRate(String countryCurrencyDesc, LocalDateTime transactionDate) {
 		val exchangeRates = this.treasuryExchangeClient.getExchangeRates(countryCurrencyDesc, transactionDate);
+		if(exchangeRates == null) {
+			throw new ResponseStatusException(HttpStatus.PARTIAL_CONTENT, "Could Not Find Valid Exchange Rate");
+		}
 		List<ExchangeRateDto> last6Months = exchangeRates.stream().filter(x -> x.getRecordDate().isAfter(transactionDate.toLocalDate().minusMonths(6)))
 				.sorted( (x, y) -> y.getRecordDate().compareTo(x.getRecordDate()) ).toList();
 		if(last6Months.isEmpty()) {
