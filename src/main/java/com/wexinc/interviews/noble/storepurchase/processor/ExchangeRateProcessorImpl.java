@@ -25,6 +25,7 @@ public class ExchangeRateProcessorImpl implements ExchangeRateProcessor {
 		if(exchangeRates == null) {
 			throw new ResponseStatusException(HttpStatus.PARTIAL_CONTENT, "Could Not Find Valid Exchange Rate");
 		}
+		// Consider caching
 		List<ExchangeRateDto> last6Months = exchangeRates.stream().filter(x -> x.getRecordDate().isAfter(transactionDate.toLocalDate().minusMonths(6)))
 				.sorted( (x, y) -> y.getRecordDate().compareTo(x.getRecordDate()) ).toList();
 		if(last6Months.isEmpty()) {
